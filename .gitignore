@@ -1,0 +1,8 @@
+.idea/*
+*.iml
+*.jar
+crypto_watcher_core/deploy
+*.zip
+crypto_watcher_alert/target
+crypto_watcher_webapp/target
+crypto_watcher_core/target

@@ -1,0 +1,17 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.personal.stanley</groupId>
+    <artifactId>crypto_watcher</artifactId>
+    <packaging>pom</packaging>
+    <version>01.00.00-SNAPSHOT</version>
+    <name>crypto_watcher_parent</name>
+    <url>http://maven.apache.org</url>
+    <dependencies>
+    </dependencies>
+    <modules>
+        <module>crypto_watcher_core</module>
+        <module>crypto_watcher_webapp</module>
+        <module>crypto_watcher_alert</module>
+    </modules>
+</project>

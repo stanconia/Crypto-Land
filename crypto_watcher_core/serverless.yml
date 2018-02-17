@@ -1,0 +1,20 @@
+service: tradable-persist-service
+
+provider:
+  name: aws
+  runtime: java8
+  stage: dev
+  region: us-east-1
+  environment: # log jul over log4j2
+    JAVA_TOOL_OPTIONS: -Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager
+
+package:
+  artifact: /Users/stanleyopara/projects/Crypto_Watcher/crypto_watcher_core/target/crypto_watcher_core.jar
+
+functions:
+  sample:
+    handler: org.personal.crypto_watcher.api.RequestHandler
+    events:
+      - http:
+          path: tradable/{proxy+}
+          method: any

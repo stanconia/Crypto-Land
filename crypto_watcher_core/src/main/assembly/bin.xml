@@ -1,0 +1,55 @@
+<!-- Copy this bin.xml into the src/main/assembly/ directory of your repository, 
+	and make changes where needed. -->
+<assembly
+	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+	<id></id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<fileSets>
+		<!-- For all projects, copies the entire config directory of your project 
+			into the config directory in the output. -->
+		<fileSet>
+			<directory>${project.basedir}/config</directory>
+			<outputDirectory>/config</outputDirectory>
+			<includes>
+				<include>**</include>
+			</includes>
+		</fileSet>
+
+		<!-- For all projects, copies lib, lkp, and scripts. -->
+		<fileSet>
+			<directory>${project.basedir}/lib</directory>
+			<outputDirectory>/lib</outputDirectory>
+			<includes>
+				<include>**</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/lkp</directory>
+			<outputDirectory>/lkp</outputDirectory>
+			<includes>
+				<include>**</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/scripts</directory>
+			<outputDirectory>/scripts</outputDirectory>
+			<includes>
+				<include>**</include>
+			</includes>
+		</fileSet>
+
+		<!-- For Java projects, puts your final built jar in the bin directory 
+			in the output. -->
+		<fileSet>
+			<directory>${project.build.directory}</directory>
+			<outputDirectory>/bin</outputDirectory>
+			<includes>
+				<include>${project.artifactId}.jar</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+</assembly>
