@@ -92,6 +92,7 @@ public class DataInterface {
                 .where("table_schema = 'public'")
                 .fetch().stream()
                 .map(record -> record.get(field("table_name",PostgresDataType.TEXT)))
+                .filter(tblName -> !tblName.startsWith("pg_"))
                 .collect(Collectors.toList());
         return tblNames;
     }
@@ -123,8 +124,9 @@ public class DataInterface {
                     = new TypeReference<HashMap<String, Tradable.Metrics>>() {
             };
             try {
+                String metrics = record.get(field("metrics", PostgresDataType.TEXT));
                 tradable.setMetricMap(
-                        new ObjectMapper().readValue(record.get(field("metrics", PostgresDataType.TEXT)), typeRef));
+                        new ObjectMapper().readValue(metrics, typeRef));
             } catch (IOException e) {
                 e.printStackTrace();
                 tradable.setMetricMap(new HashMap<>());
@@ -136,4 +138,9 @@ public class DataInterface {
         }
     }
 
+    public void deleteData(String symbol, String time) {
+
+        context.deleteFrom(table("\"" + symbol + "\""))
+                .where("time < '" + time + "'").execute();
+    }
 }

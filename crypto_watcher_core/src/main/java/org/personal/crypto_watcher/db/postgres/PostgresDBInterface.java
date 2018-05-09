@@ -8,6 +8,7 @@ import org.personal.crypto_watcher.controller.trade.model.CoinProp;
 import org.personal.crypto_watcher.controller.trade.watch.CurrencyAlert;
 import org.personal.crypto_watcher.db.DBInterface;
 import org.personal.crypto_watcher.db.postgres.db_helpers.*;
+import org.personal.crypto_watcher.model.CurrCap;
 import org.personal.crypto_watcher.model.CurrencyStat;
 import org.personal.crypto_watcher.model.MarketCap;
 import org.personal.crypto_watcher.model.Tradable;
@@ -27,6 +28,7 @@ public class PostgresDBInterface implements DBInterface{
     private static CurrAlertInterface currAlertInterface;
     private static CommonInterface commonInterface;
     private static CurrencyStatInterface currStatInterface;
+    private static GlobalCurrInterface globalCurrInterface;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PostgresDBInterface.class);
 
@@ -38,6 +40,7 @@ public class PostgresDBInterface implements DBInterface{
         if(currAlertInterface == null) currAlertInterface = CurrAlertInterface.get(DSL.using(getDataSource(CurrAlertInterface.getDBName()), SQLDialect.POSTGRES));
         if(currPropInterface == null) currPropInterface = CurrPropInterface.get(DSL.using(getDataSource(CurrPropInterface.getDBName()), SQLDialect.POSTGRES));
         if(commonInterface == null) commonInterface = CommonInterface.get(DSL.using(getDataSource(CommonInterface.getDBName()), SQLDialect.POSTGRES));
+        if(globalCurrInterface == null) globalCurrInterface = GlobalCurrInterface.get(DSL.using(getDataSource(GlobalCurrInterface.getDBName()), SQLDialect.POSTGRES));
     }
 
     private static DataSource getDataSource(String dbName){
@@ -46,10 +49,10 @@ public class PostgresDBInterface implements DBInterface{
         PGPoolingDataSource source = new PGPoolingDataSource();
         source.setDataSourceName(dbName + randNum );
         source.setPortNumber( 5432);
-        source.setServerName("localhost");
+        source.setServerName("crypto-land.postgres.database.azure.com");
         source.setDatabaseName(dbName);
-        source.setUser("stanleyopara");
-        source.setPassword("odaliki123");
+        source.setUser("stanwizzy@crypto-land");
+        source.setPassword("Ab34567@");
         source.setMaxConnections(10);
         return source;
     }
@@ -170,6 +173,23 @@ public class PostgresDBInterface implements DBInterface{
     public void putMarketCap(MarketCap marketCap) {
 
         mrktCapInterface.putMarketCap(marketCap);
+    }
+
+    @Override
+    public void persistGlobalCurr(List<CurrCap> currs) {
+
+        globalCurrInterface.persistCurr(currs);
+    }
+
+    @Override
+    public List<CurrCap> getGlobalCurr() {
+
+        return globalCurrInterface.getCurr();
+    }
+
+    public void deleteData(String symbol, String time){
+
+        dataInterface.deleteData(symbol,time);
     }
 
 }

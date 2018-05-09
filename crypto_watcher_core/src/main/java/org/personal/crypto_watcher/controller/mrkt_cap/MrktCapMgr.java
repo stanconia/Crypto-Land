@@ -12,9 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -56,10 +54,23 @@ public class MrktCapMgr {
 
         try {
             List<CurrCap> currCaps = RestService.getCurrCaps();
-            return currCaps.stream().collect(Collectors.toMap(CurrCap::getSymbol,(currCap) -> currCap));
+            return getMappedCurrCap(currCaps);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return new HashMap<>();
+    }
+
+    private Map<String,CurrCap> getMappedCurrCap(List<CurrCap> currCaps){
+
+        Map<String,CurrCap> map = new HashMap<>();
+        currCaps.forEach(currCap -> {
+            if(!map.containsKey(currCap.getSymbol())){
+                map.put(currCap.getSymbol(),currCap);
+            }else{
+                map.remove(currCap.getSymbol());
+            }
+        });
+        return map;
     }
 }

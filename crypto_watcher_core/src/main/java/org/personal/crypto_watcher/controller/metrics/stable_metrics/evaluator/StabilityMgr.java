@@ -26,14 +26,16 @@ public class StabilityMgr {
         List<CurrencyStat> currencyStats = stablePriceMgr.getStableCurr(SixHrTasks.WINDOW);
         currencyStats.stream().forEach(currStat -> {
             Tradable tradable = getTradableForStat(currStat, tradables);
-            if (currStat.getVolumeMean() < 30) {
-                StableCurrAlertMgr.checkSmallCurr(currStat, tradable);
-            } else if (currStat.getVolumeMean() < 100) {
-                StableCurrAlertMgr.checkMediumCurr(currStat, tradable);
-            } else if (currStat.getVolumeMean() < 1000) {
-                StableCurrAlertMgr.checkMediumCurr(currStat, tradable);
-            } else {
-                StableCurrAlertMgr.checkMediumCurr(currStat, tradable);
+            if(tradable != null) {
+                if (currStat.getVolumeMean() < 30) {
+                    StableCurrAlertMgr.checkSmallCurr(currStat, tradable);
+                } else if (currStat.getVolumeMean() < 100) {
+                    StableCurrAlertMgr.checkMediumCurr(currStat, tradable);
+                } else if (currStat.getVolumeMean() < 1000) {
+                    StableCurrAlertMgr.checkMediumCurr(currStat, tradable);
+                } else {
+                    StableCurrAlertMgr.checkMediumCurr(currStat, tradable);
+                }
             }
         });
     }
@@ -45,15 +47,21 @@ public class StabilityMgr {
         currencyStats.stream().forEach(currStat -> {
 
             Tradable tradable = getTradableForStat(currStat, tradables);
-            StableCurrAlertMgr.checkSmallCurr(currStat, tradable);
+            if(tradable != null) {
+                StableCurrAlertMgr.checkSmallCurr(currStat, tradable);
+            }
         });
     }
 
     private static Tradable getTradableForStat(CurrencyStat currencyStat, List<Tradable> tradables) {
 
 
-        return tradables.stream().filter(dynamoTradable ->{
+        List<Tradable> filteredTradables = tradables.stream().filter(dynamoTradable ->{
                 return dynamoTradable.getMarketName().equals(currencyStat.getSymbol());
-        }).collect(Collectors.toList()).get(0);
+        }).collect(Collectors.toList());
+        if(filteredTradables.isEmpty()){
+            return null;
+        }
+        return filteredTradables.get(0);
     }
 }

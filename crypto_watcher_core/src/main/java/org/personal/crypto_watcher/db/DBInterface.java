@@ -2,10 +2,8 @@ package org.personal.crypto_watcher.db;
 
 import org.personal.crypto_watcher.controller.trade.model.CoinProp;
 import org.personal.crypto_watcher.controller.trade.watch.CurrencyAlert;
-import org.personal.crypto_watcher.model.BestPerformers;
-import org.personal.crypto_watcher.model.CurrencyStat;
-import org.personal.crypto_watcher.model.MarketCap;
-import org.personal.crypto_watcher.model.Tradable;
+import org.personal.crypto_watcher.db.mongodb.global_curr.GlobalCurrencyDB;
+import org.personal.crypto_watcher.model.*;
 
 import java.util.List;
 import java.util.Map;
@@ -50,4 +48,8 @@ public interface DBInterface {
     public MarketCap getMarketCap(String time);
 
     public void putMarketCap(MarketCap marketCap);
+
+    public  void persistGlobalCurr(List<CurrCap> currs);
+
+    public  List<CurrCap> getGlobalCurr() ;
 }

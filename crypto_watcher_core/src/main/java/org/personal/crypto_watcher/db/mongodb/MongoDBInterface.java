@@ -9,14 +9,12 @@ import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 import org.personal.crypto_watcher.controller.trade.watch.CurrencyAlert;
 import org.personal.crypto_watcher.db.DBInterface;
+import org.personal.crypto_watcher.db.mongodb.global_curr.GlobalCurrencyDB;
 import org.personal.crypto_watcher.db.mongodb.trade.TradeDB;
 import org.personal.crypto_watcher.controller.trade.model.CoinProp;
-import org.personal.crypto_watcher.model.CurrencyStat;
+import org.personal.crypto_watcher.model.*;
 import org.personal.crypto_watcher.db.mongodb.currency_stats.CurrencyMetricsDB;
-import org.personal.crypto_watcher.model.MarketCap;
-import org.personal.crypto_watcher.model.Tradable;
 import org.personal.crypto_watcher.db.model.mongodb.*;
-import org.personal.crypto_watcher.model.BestPerformers;
 
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -43,7 +41,7 @@ public class MongoDBInterface implements DBInterface {
                     }
                 });
 
-        CurrencyMetricsDB.init(client);
+        GlobalCurrencyDB.init(client);
         TradeDB.init(client);
     }*/
 
@@ -61,6 +59,7 @@ public class MongoDBInterface implements DBInterface {
                 });
 
         CurrencyMetricsDB.init(client);
+        GlobalCurrencyDB.init(client);
         TradeDB.init(client);
     }
 
@@ -140,6 +139,7 @@ public class MongoDBInterface implements DBInterface {
 
     }
 
+
     public  String getLatestStableCurrIDs(String window){
 
         return CurrencyMetricsDB.getStableCurrTimePointerIDs(window);
@@ -202,6 +202,18 @@ public class MongoDBInterface implements DBInterface {
 
     @Override
     public void putMarketCap(MarketCap marketCap) {
+
+    }
+
+    public  void persistGlobalCurr(List<CurrCap> currs) {
+
+        GlobalCurrencyDB.persistCurr(currs);
+
+    }
+
+    public  List<CurrCap> getGlobalCurr() {
+
+        return GlobalCurrencyDB.getCurr();
 
     }
 }

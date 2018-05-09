@@ -50,7 +50,8 @@ public class TradableMgr {
             execTopPerformers(tradables);
             StabilityMgr.run(tradables);
             BuySellIndicator.run(tradables);
-            runOneHourtasks();
+            runThirtyMinTasks();
+            runSixHourtasks();
             TradeMgr.getTradeMgr().run(tradables);
         }catch(Exception e){
             logger.error(e.getMessage());
@@ -58,14 +59,32 @@ public class TradableMgr {
         }
     }
 
+    private void runSixHourtasks() {
 
-    private void runOneHourtasks() {
+        DateTime time = TimeMgr.getTime();
+        int hrs = time.getHourOfDay();
+        int mins = time.getMinuteOfHour();
+        if( (hrs == 19 || hrs == 4 || hrs == 14 || hrs == 9) && (mins == 0)){     //mins == 0
+            logger.info("Resetting volumes");
+            try {
+                List<CurrCap> currCaps = RestService.getCurrCaps();
+                DBMgr.getDBMgr().getInterface().persistGlobalCurr(currCaps);
+            }catch (Exception e){
+                logger.error(e.getMessage());
+            }
+        }
+    }
+
+
+    private void runThirtyMinTasks() {
 
         DateTime time = TimeMgr.getTime();
         int mins = time.getMinuteOfHour();
         if( mins % 30 == 0){     //mins == 0
             logger.info("Running trend analysis");
+            //TrendAnalysis.printMarketCap();
             TrendAnalysis.findAndAlertTrend();
+            //TrendAnalysis.printTopVolIncreases();
         }
     }
 

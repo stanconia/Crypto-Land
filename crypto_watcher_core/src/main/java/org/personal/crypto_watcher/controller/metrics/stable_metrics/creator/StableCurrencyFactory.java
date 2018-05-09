@@ -29,7 +29,7 @@ public class StableCurrencyFactory {
         int interval = 12 * 60;
         currencyStats = TradableLib.getDescriptiveStat(interval);
         DBMgr.getDBMgr().getInterface().persistCurrStat(currencyStats,time,window);
-/*        MongoDBInterface.persistCurrStat(currencyStats.stream().filter(
+/*        MongoDBInterface.persistCurr(currencyStats.stream().filter(
                 stat -> stat.getSymbol().startsWith("USDT")).collect(Collectors.toList()), time,window); */ //TODO
         List<CurrencyStat> stableCurr = getStableCurr();
         StablePriceMgr stablePriceMgr = new StablePriceMgr();

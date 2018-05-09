@@ -56,7 +56,10 @@ public class TrendCalculator {
                 sixHrAgoT.getNumBuyOrders(),
                 twelveHrT.getNumBuyOrders());
 
-        numBuyTrendOutput.setAdditionalInfo(currentT.getNumSellOrders());
+        String info = String.format("%.2f",(currentT.getVolume()/twoHrAgoT.getVolume() - 1) * 100);
+
+        numBuyTrendOutput.setAdditionalInfo(info);
+        numBuyTrendOutput.setAdditionalDouble(currentT.getNumSellOrders());
 
 
         TrendOutput numSellTrendOutput = new TrendOutput(

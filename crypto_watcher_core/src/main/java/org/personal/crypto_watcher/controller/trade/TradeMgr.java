@@ -64,7 +64,7 @@ public class TradeMgr {
 
         if(isOn){
             String symbol = tradable.getMarketName();
-            double price = tradable.getPrice();
+            double price = tradable.getBtcAmt();
             double quantity = 0.01/(price * 1.01);
             if(symbol.startsWith("BTC")){
                 List<CurrBalance> balances =  BittrexClient.getBalances();

@@ -24,13 +24,13 @@ public class DBMgr {
 
     public DBInterface getInterface(){
 
-        return getInterface(MONGO_INTERFACE);
+        return getInterface(POSTGRES_INTERFACE);
     }
 
     public DBInterface getInterface(String interfaceType){
 
         if(dbInterface == null) {
-            dbInterface = new MongoDBInterface();
+            dbInterface = new PostgresDBInterface();
             switch (interfaceType) {
                 case POSTGRES_INTERFACE:
                     return dbInterface;

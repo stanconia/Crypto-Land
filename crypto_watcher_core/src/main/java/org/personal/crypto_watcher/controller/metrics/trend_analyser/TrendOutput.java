@@ -12,7 +12,8 @@ public class TrendOutput {
     private double spread;
 
 
-    private double additionalInfo;
+    private String additionalInfo;
+    private double additionalDouble;
 
     private String symbol;
 
@@ -26,7 +27,8 @@ public class TrendOutput {
         this.sixHr = sixHr;
         this.twelveHr = twelveHr;
         this.symbol = symbol;
-        this.additionalInfo = 0;
+        this.additionalInfo = "";
+        this.additionalDouble = 0;
     }
 
     public double getOneHr() {
@@ -59,7 +61,7 @@ public class TrendOutput {
         return spread;
     }
 
-    public double getAdditionalInfo() {
+    public String getAdditionalInfo() {
         return additionalInfo;
     }
 
@@ -70,7 +72,7 @@ public class TrendOutput {
 
     public void setScore(double score){ this.score = score;}
 
-    public void setAdditionalInfo(double additionalInfo){ this.additionalInfo = additionalInfo;}
+    public void setAdditionalInfo(String additionalInfo){ this.additionalInfo = additionalInfo;}
 
     public String getSymbol() {
         return symbol;
@@ -88,8 +90,15 @@ public class TrendOutput {
                 .append((int) fourHr + "%7C")
                 .append( (int) sixHr + "%7C")
                 .append( (int) twelveHr + "%7C%7C")
-                .append( (int) additionalInfo);
+                .append(  additionalInfo);
         return builder.toString();
     }
 
+    public void setAdditionalDouble(int additionalDouble) {
+        this.additionalDouble = additionalDouble;
+    }
+
+    public double getAdditionalDouble() {
+        return this.additionalDouble;
+    }
 }

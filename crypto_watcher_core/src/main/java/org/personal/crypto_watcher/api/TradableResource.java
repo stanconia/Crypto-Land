@@ -2,6 +2,9 @@ package org.personal.crypto_watcher.api;
 
 import com.google.common.base.Optional;
 import org.personal.crypto_watcher.controller.metrics.common.TradableLib;
+import org.personal.crypto_watcher.db.DBMgr;
+import org.personal.crypto_watcher.model.CurrCap;
+import org.personal.crypto_watcher.service.RestService;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -25,6 +28,20 @@ public class TradableResource {
         int numPeriod = periodNum.or(1);
         int interval = usrInterval.or(1);
         return TradableLib.getHistoricalTradables(symbol,timePeriod,numPeriod,interval);
+    }
+
+    @GET
+    @Path("/flush")
+    public String flush() {
+
+        try {
+            List<CurrCap> currCaps = RestService.getCurrCaps();
+            DBMgr.getDBMgr().getInterface().persistGlobalCurr(currCaps);
+            return "OK!";
+        }catch (Exception e){
+            return e.getMessage();
+        }
+
     }
 
 
